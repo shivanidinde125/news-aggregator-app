@@ -4,18 +4,18 @@
   --border-color:white;
   --box-color:rgba(39, 35, 35, 0.986);
   --img-background:black;
-  --box-shadow:wheat;
+  --box-shadow:white;
   --author-color:rgb(43, 173, 216);
   --border-line-color:white;
 }
 
 [data-theme="lite"] {
-  --background-body-color: wheat;
+  --background-body-color: white;
   --font-color:black;
   --border-color:black;
-  --box-color:rgb(31, 247, 157);
-  --img-background:wheat;
-  --box-shadow:rgb(31, 247, 157);
+  --box-color:white;
+  --img-background:white;
+  --box-shadow:white;
   --author-color:black;
 }
 
@@ -134,20 +134,22 @@ input:checked + .slider:before {
 }
 
 .container {
-  max-width: 265px;
+  max-width: 20%;
   border: black 10px solid;
-  height: 530px;
-  padding: 35px;
+  height: auto;
+  padding: 20px;
   margin-left: 9px;
   background-color: var(--box-color);
   margin-bottom: 20px;
   border-radius: 18px;
-  padding-right: 30px;
+  padding-right: 20px;
+  overflow:hidden;
 }
 
 .article {
   list-style-type: none;
   display: inline;
+  
 }
 
 .container:hover {
@@ -160,15 +162,15 @@ input:checked + .slider:before {
 }
 
 .img_area {
-  width: 265px;
-  height: 250px;
+  width:auto;
+  height:40%;
   background-color: var(--img-background);
 }
 
 .article-img {
-  margin-top: 20px;
-  width: 265px;
-  height: 205px;
+  
+  width: 100%;
+  height: 100%;
 }
 
 .article-title {
@@ -188,7 +190,7 @@ input:checked + .slider:before {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   font-family: sans-serif;
 }
