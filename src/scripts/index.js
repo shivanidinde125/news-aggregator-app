@@ -1,78 +1,175 @@
-// Lite Mode/Dark Mode Toggle Function//
-document.querySelector("#toggle_action").addEventListener('change',toggle_func)
 
-function toggle_func(e){
-  if (e.target.checked)
-   {
-    document.documentElement.setAttribute('data-theme', 'lite');
-    document.querySelector(".toggletxt").innerHTML="Toggle to Dark Mode";
-    }
-else
-   {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    document.querySelector(".toggletxt").innerHTML="Toggle to Lite Mode";
-   }   
-}
 
-//Api-Key//
-const apikey="49a71b0de7134ddebba2f2758259c578";
-var article_area=document.getElementById("news-articles");
-//Function to have formatted NEWS//
-function getNews(news){
-  let output="";
-  if(news.totalResults>0){
-    news.articles.forEach(ind=>{
-      output+= 
-        ` <section class="container">
-          <li class="article"><a class="article-link" href="${ind.url}" target="_blank">
-          <div class="img_area">
-          <img src="${ind.urlToImage}" class="article-img" alt="${ind.title}"></img>
-          </div>
-          <h2 class="article-title">${ind.title}</h2>
-          <p class="article-description">${ind.description || "Description not available"}</p> <br>
-          <span class="article-author">-${ind.author? ind.author: "Anon"}</span><br>
-          </a>
-          </li>
-          </section>
-        `;
-    });
-    article_area.innerHTML=output;
-  }
-  else
-  { 
-    article_area.innerHTML='<li class="not-found">No article was found based on the search.</li>';
-  }
+document.onreadystatechange = function() { 
+  if (document.readyState !== "complete") { 
+      document.querySelector( 
+        "body").style.visibility = "hidden"; 
+      document.querySelector( 
+        "#loader").style.visibility = "visible"; 
+  } else { 
+      document.querySelector( 
+        "#loader").style.display = "none"; 
+      document.querySelector( 
+        "body").style.visibility = "visible"; 
+  } 
 };
-// Function to retreive news using Fetch API with Await//
-async function retreive(searchValueText=""){
+debugger;
 
-    article_area.innerHTML='<p class="load">News are Loading...</p>';
+  getdata();
+
+  function search(){
+
     
-    if(searchValueText!=""){
-      url=`https://newsapi.org/v2/everything?q=${searchValueText}&apiKey=${apikey}`;
-    }
-    else
-    {
-      url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=${apikey}`;
-    }
-    const response=await fetch(url);
-    const result=await response.json();
-    getNews(result);
-}
-//Get text value from Searchbar and pass to retreive function//
-async function searchvalue(e){  
-    if (event.which === 13 || event.keyCode === 13 || event.key === "Enter")
-     {
-      retreive(e.target.value);
-     }
-};
-//Attached Event listener for Searchbar to retreive text from Searchbar//
-function start(){
-  document.getElementById("search").addEventListener('keypress',searchvalue);
-  retreive();
-}
-//Initializing Function//
-(function(){
-  start();}
-)();
+      var searchData = document.getElementById("search").value;
+      const key = "897c2e65625e425396495470aef7fadd";
 
+      const url = `https://newsapi.org/v2/everything?q=${searchData}&apiKey=${key}`
+
+UserSearch();
+async function UserSearch(){
+  const response  = await fetch(url);
+  const dataOf = await response.json();
+  console.log(dataOf);
+  if(dataOf.articles.length == 0)
+  {
+
+  
+    var nodata = ` <div class="not-found">No article was found based on the search.</div>`;
+    document.getElementById("news-articles").innerHTML = nodata;
+    console.log("else executed");
+  
+    
+} // end of then               
+else
+{
+  dataOf.articles.forEach(article =>{
+
+    const title = article.title;
+    const img = article.urlToImage;
+    const description = article.description;
+    const auth = article.author;
+    const link = article.url;
+    const source = article.source.name;
+ //paste below
+ /*------------------------------------------------------------ */
+ squery+=`
+ <div class="main_card" style="width:400px;">
+  
+ <li class="article">
+   
+     <article>
+       
+        <img class="article-img" src="${img}" alt="no image"  width="100%" height="100%"/>
+         
+        <h2 class="article-title" style="font-weight:bold;">${title}-${source}</h2> 
+         
+         <p class="article-description">${description}</p>
+         
+        <span class="article-author">${auth}</span><br><br><br> 
+         
+         <a class="article-link" href="${link}"><b>Full article</b></a><br><br><br><br>
+ 
+    </article>
+
+     </li>
+ </div>
+ 
+ `;
+ document.getElementById("news-articles").innerHTML = squery;
+/*------------------------------------------------------------------- */
+  })   //paste above
+  var squery =+ ''
+  
+  
+}
+
+
+
+} //end of for loop
+
+
+
+
+  }
+
+ 
+
+//Toggling the dark mode
+  function myFunction() {
+    var element = document.body;
+    
+    element.classList.toggle("dark-mode");
+   
+    
+ }
+
+ //fetching the data
+
+async function getdata() {
+  const res = await fetch('https://newsapi.org/v2/top-headlines?country=in&apiKey=897c2e65625e425396495470aef7fadd');
+  const data = await res.json();
+  
+  console.log(data);
+  
+ 
+  data.articles.forEach(news =>{
+    
+    const title = news.title;
+    const img = news.urlToImage;
+    const description = news.description;
+    const auth = news.author;
+    const link = news.url;
+    const source = news.source.name;
+
+
+
+    out+=`
+   <div class="main_card" style="width:25%">
+     
+    <li class="article">
+      
+         
+       <article>
+       
+           <img class="article-img" src="${img}" alt="no image"  width="100%">
+            
+            <h2 class="article-title" style="font-weight:bold;">${title}-${source}</h2>
+            
+            <p class="article-description">${description}</p>
+            
+            <span class="article-author">-${auth}</span><br>
+            
+            <a class="article-link" href="${link}">Full article</a><br>
+    
+        </article>
+        
+       
+     </li>
+    
+     </div>
+  
+    
+    
+    `;
+    document.getElementById("news-articles").innerHTML = out;
+        
+  })
+ var out =+ '';
+
+
+
+
+}
+
+ 
+
+
+//search results apear on hitting enter
+
+let input = document.getElementById("search");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   search();
+  }
+});
